@@ -1,0 +1,314 @@
+:root {
+  --bg: #08080c;
+  --bg-elevated: rgba(255, 255, 255, 0.045);
+  --bg-elevated-hover: rgba(255, 255, 255, 0.08);
+  --border: rgba(255, 255, 255, 0.09);
+  --text: #f2f2f5;
+  --text-muted: #9a9aa8;
+  --radius: 16px;
+
+  color-scheme: dark;
+  font-family: 'Outfit', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  /* Only <html> paints the base colour: <body> painting it too would cover the
+     negatively-stacked .aurora layer behind it. */
+  background: var(--bg);
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+  color: var(--text);
+}
+
+body {
+  overflow-x: hidden;
+}
+
+/* Background
+   ------------------------------------------------------------------ */
+
+.aurora {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.aurora::after {
+  /* Faint grain so the large gradients don't band on wide displays. */
+  content: '';
+  position: absolute;
+  inset: -50%;
+  opacity: 0.16;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.aurora__blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.34;
+  will-change: transform;
+}
+
+.aurora__blob--a {
+  width: 46rem;
+  height: 46rem;
+  top: -18rem;
+  left: -14rem;
+  background: #6d4cf0;
+  animation: drift-a 26s ease-in-out infinite;
+}
+
+.aurora__blob--b {
+  width: 38rem;
+  height: 38rem;
+  top: 22%;
+  right: -16rem;
+  background: #1f6fd0;
+  animation: drift-b 32s ease-in-out infinite;
+}
+
+.aurora__blob--c {
+  width: 34rem;
+  height: 34rem;
+  bottom: -16rem;
+  left: 20%;
+  background: #b83fa8;
+  opacity: 0.24;
+  animation: drift-c 38s ease-in-out infinite;
+}
+
+@keyframes drift-a {
+  50% {
+    transform: translate3d(6rem, 4rem, 0) scale(1.12);
+  }
+}
+@keyframes drift-b {
+  50% {
+    transform: translate3d(-5rem, 5rem, 0) scale(0.9);
+  }
+}
+@keyframes drift-c {
+  50% {
+    transform: translate3d(4rem, -4rem, 0) scale(1.15);
+  }
+}
+
+/* The blobs are sized in rem, so on a phone they fill the whole screen and the
+   tint reads as a flat purple wash. Pull them back there. */
+@media (max-width: 40rem) {
+  .aurora__blob {
+    opacity: 0.2;
+  }
+  .aurora__blob--c {
+    opacity: 0.16;
+  }
+}
+
+/* Layout
+   ------------------------------------------------------------------ */
+
+.page {
+  width: 100%;
+  max-width: 30rem;
+  margin: 0 auto;
+  padding: clamp(3rem, 10vh, 5.5rem) 1.25rem 3rem;
+  padding-bottom: max(3rem, env(safe-area-inset-bottom));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Profile
+   ------------------------------------------------------------------ */
+
+.profile {
+  text-align: center;
+  animation: rise 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.profile__avatar {
+  width: 8rem;
+  height: 8rem;
+  margin: 0 auto 1.25rem;
+  padding: 3px;
+  border-radius: 50%;
+  background: conic-gradient(from 180deg, #8b7bf0, #4aa8ff, #e05fd0, #8b7bf0);
+  box-shadow: 0 0 40px rgba(139, 123, 240, 0.35);
+}
+
+.profile__avatar img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--bg);
+}
+
+.profile__name {
+  margin: 0;
+  font-size: clamp(2.25rem, 9vw, 2.75rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+.profile__handle {
+  margin: 0.25rem 0 0;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+.profile__tagline {
+  margin: 0.85rem 0 0;
+  font-size: 1rem;
+  color: var(--text-muted);
+}
+
+/* Link stack
+   ------------------------------------------------------------------ */
+
+.stack {
+  width: 100%;
+  margin-top: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-elevated);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  color: var(--text);
+  font-size: 1.05rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition:
+    transform 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.22s ease,
+    background-color 0.22s ease,
+    box-shadow 0.22s ease;
+  animation: rise 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: var(--delay, 0ms);
+}
+
+.link:hover,
+.link:focus-visible {
+  transform: translateY(-2px);
+  background: var(--bg-elevated-hover);
+  border-color: color-mix(in srgb, var(--accent) 55%, transparent);
+  box-shadow: 0 8px 30px -10px color-mix(in srgb, var(--accent) 60%, transparent);
+  outline: none;
+}
+
+.link:active {
+  transform: translateY(0);
+}
+
+.link:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.link__icon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 11px;
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent);
+  transition: background-color 0.22s ease;
+}
+
+.link:hover .link__icon {
+  background: color-mix(in srgb, var(--accent) 26%, transparent);
+}
+
+.link__icon img {
+  width: 1.35rem;
+  height: 1.35rem;
+  object-fit: contain;
+}
+
+.link__label {
+  flex: 1;
+  text-align: left;
+}
+
+.link__chevron {
+  flex: none;
+  width: 1.15rem;
+  height: 1.15rem;
+  color: var(--text-muted);
+  opacity: 0.6;
+  transition:
+    transform 0.22s ease,
+    opacity 0.22s ease;
+}
+
+.link__chevron svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.link:hover .link__chevron {
+  transform: translateX(3px);
+  opacity: 1;
+}
+
+/* Footer
+   ------------------------------------------------------------------ */
+
+.footer {
+  margin-top: 3rem;
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  text-transform: lowercase;
+  color: var(--text-muted);
+  opacity: 0.5;
+  animation: rise 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 0.75s;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

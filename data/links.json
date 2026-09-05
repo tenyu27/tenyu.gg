@@ -1,0 +1,113 @@
+{
+  "profile": {
+    "name": "tenyu",
+    "handle": "@tenyu27",
+    "tagline": "Hi I'm tenyu :D",
+    "avatar": "/avatar.png"
+  },
+  "links": [
+    {
+      "slug": "logs",
+      "label": "FFLogs",
+      "url": "https://www.fflogs.com/character/id/18297491",
+      "icon": "/icons/fflogs.png",
+      "accent": "#d0a55b",
+      "featured": true
+    },
+    {
+      "slug": "tomestone",
+      "label": "Tomestone",
+      "url": "https://tomestone.gg/character/22284072/tenyu-chan",
+      "icon": "/icons/tomestone.webp",
+      "accent": "#6c7ae0",
+      "featured": true
+    },
+    {
+      "slug": "twitch",
+      "label": "Twitch",
+      "url": "https://www.twitch.tv/tenyu27",
+      "icon": "/icons/twitch.svg",
+      "accent": "#9146ff",
+      "featured": true
+    },
+    {
+      "slug": "youtube",
+      "label": "YouTube",
+      "url": "https://www.youtube.com/@tenyuXIV",
+      "icon": "/icons/youtube.svg",
+      "accent": "#ff0033",
+      "featured": true
+    },
+    {
+      "slug": "x",
+      "label": "Twitter",
+      "url": "https://x.com/tenyu27",
+      "icon": "/icons/x.svg",
+      "accent": "#e8e8ec",
+      "featured": true
+    },
+    {
+      "slug": "steam",
+      "label": "Steam",
+      "url": "https://steamcommunity.com/id/tenyu27",
+      "icon": "/icons/steam.svg",
+      "accent": "#66c0f4",
+      "featured": true
+    },
+    {
+      "slug": "spotify",
+      "label": "Spotify",
+      "url": "https://open.spotify.com/user/225xmpaawpmyleapx3y3dhbmi",
+      "icon": "/icons/spotify-alt.svg",
+      "accent": "#1db954",
+      "featured": true
+    },
+    {
+      "slug": "bluesky",
+      "label": "Bluesky",
+      "url": "https://bsky.app/profile/tenyu.gg",
+      "icon": "/icons/bluesky.svg",
+      "accent": "#1185fe",
+      "featured": true
+    },
+    {
+      "slug": "github",
+      "label": "GitHub",
+      "url": "https://github.com/tenyu27",
+      "icon": "/icons/github.svg",
+      "accent": "#d0d7de",
+      "featured": true
+    },
+
+    {
+      "slug": "twitter",
+      "label": "Twitter",
+      "url": "https://x.com/tenyu27"
+    },
+    {
+      "slug": "lodestone",
+      "label": "Lodestone",
+      "url": "https://na.finalfantasyxiv.com/lodestone/character/22284072"
+    },
+    {
+      "slug": "minaglams",
+      "label": "Mina's Glamours",
+      "url": "https://ffxiv.eorzeacollection.com/glamours?author=Mina%20Ai&filter%5Bserver%5D=cactuar"
+    },
+    {
+      "slug": "lululogs",
+      "label": "Lulu's Logs",
+      "url": "https://www.fflogs.com/character/id/19518088"
+    },
+    {
+      "slug": "gears",
+      "label": "Gear Sheet",
+      "url": "https://docs.google.com/spreadsheets/d/1ALXW0mNpdeVteBP7fMBccCWGiXKdvfoMZ75BoZqG-ss/edit?usp=sharing"
+    },
+    {
+      "slug": "cod",
+      "label": "wtfdig",
+      "url": "https://mczub.github.io/wtfdig/"
+    }
+  ]
+}
