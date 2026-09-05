@@ -1,7 +1,6 @@
 {
   "profile": {
     "name": "tenyu",
-    "handle": "@tenyu27",
     "tagline": "Hi I'm tenyu :D",
     "avatar": "/avatar.png"
   },
@@ -11,13 +10,13 @@
       "label": "FFLogs",
       "url": "https://www.fflogs.com/character/id/18297491",
       "icon": "/icons/fflogs.png",
-      "accent": "#d0a55b",
+      "accent": "#02A1B6",
       "featured": true
     },
     {
       "slug": "tomestone",
       "label": "Tomestone",
-      "url": "https://tomestone.gg/character/22284072/tenyu-chan",
+      "url": "https://tomestone.gg/character/22284072/ten-yu",
       "icon": "/icons/tomestone.webp",
       "accent": "#6c7ae0",
       "featured": true
@@ -58,8 +57,8 @@
       "slug": "spotify",
       "label": "Spotify",
       "url": "https://open.spotify.com/user/225xmpaawpmyleapx3y3dhbmi",
-      "icon": "/icons/spotify-alt.svg",
-      "accent": "#1db954",
+      "icon": "/icons/spotify.svg",
+      "accent": "#1ED760",
       "featured": true
     },
     {
