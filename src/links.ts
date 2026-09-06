@@ -5,6 +5,7 @@ export type Link = {
   label: string;
   url: string;
   icon?: string;
+  /** The platform brand colour, used for that row's hover state. */
   accent?: string;
   featured?: boolean;
 };

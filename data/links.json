@@ -18,7 +18,7 @@
       "label": "Tomestone",
       "url": "https://tomestone.gg/character/22284072/ten-yu",
       "icon": "/icons/tomestone.webp",
-      "accent": "#6c7ae0",
+      "accent": "#8b7fe8",
       "featured": true
     },
     {
@@ -34,7 +34,7 @@
       "label": "YouTube",
       "url": "https://www.youtube.com/@tenyuXIV",
       "icon": "/icons/youtube.svg",
-      "accent": "#ff0033",
+      "accent": "#ff3d3d",
       "featured": true
     },
     {
@@ -66,7 +66,7 @@
       "label": "Bluesky",
       "url": "https://bsky.app/profile/tenyu.gg",
       "icon": "/icons/bluesky.svg",
-      "accent": "#1185fe",
+      "accent": "#3b9dff",
       "featured": true
     },
     {

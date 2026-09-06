@@ -2,23 +2,17 @@ import type { Link } from '../links';
 
 type Props = {
   link: Link;
-  /** Position in the stack, used to stagger the entrance animation. */
-  index: number;
 };
 
-export function LinkButton({ link, index }: Props) {
+export function LinkButton({ link }: Props) {
   return (
     <a
       className="link"
       href={link.url}
       target="_blank"
       rel="noopener noreferrer"
-      style={
-        {
-          '--accent': link.accent ?? '#8b7bf0',
-          '--delay': `${120 + index * 55}ms`,
-        } as React.CSSProperties
-      }
+      /* Falls back to the site accent for any link without a brand colour. */
+      style={{ '--link-accent': link.accent ?? 'var(--accent)' } as React.CSSProperties}
     >
       <span className="link__icon" aria-hidden="true">
         {link.icon ? <img src={link.icon} alt="" loading="lazy" /> : null}

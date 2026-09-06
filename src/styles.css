@@ -1,14 +1,18 @@
 :root {
-  --bg: #08080c;
-  --bg-elevated: rgba(255, 255, 255, 0.045);
-  --bg-elevated-hover: rgba(255, 255, 255, 0.08);
-  --border: rgba(255, 255, 255, 0.09);
-  --text: #f2f2f5;
-  --text-muted: #9a9aa8;
-  --radius: 16px;
+  --bg: #08080e;
+  --surface: #16161e;
+  --line: rgba(255, 255, 255, 0.09);
+  --text: #f0f0f3;
+  --muted: #91919e;
+  /* The site's own accent, used for the profile and for any link that has no
+     brand colour of its own. Each row overrides --link-accent with its
+     platform's colour. */
+  --accent: #abcdef;
+  --radius: 12px;
 
   color-scheme: dark;
-  font-family: 'Outfit', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-family: 'Geist', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-synthesis-weight: none;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -16,12 +20,6 @@
 *::before,
 *::after {
   box-sizing: border-box;
-}
-
-html {
-  /* Only <html> paints the base colour: <body> painting it too would cover the
-     negatively-stacked .aurora layer behind it. */
-  background: var(--bg);
 }
 
 html,
@@ -32,137 +30,53 @@ body {
 }
 
 body {
-  overflow-x: hidden;
+  /* A pool of the site accent behind the profile over a cool ink base. One
+     static grade anchored to the composition, not blobs drifting on a timer. */
+  background:
+    radial-gradient(
+      ellipse 130% 55% at 50% -5%,
+      color-mix(in srgb, var(--accent) 12%, transparent),
+      transparent 62%
+    ),
+    linear-gradient(180deg, #13131e 0%, var(--bg) 58%);
+  background-attachment: fixed;
+  background-color: var(--bg);
 }
 
-/* Background
-   ------------------------------------------------------------------ */
-
-.aurora {
+body::after {
+  /* Static grain, so the large field reads as a surface rather than a void
+     and the gradient does not band on wide displays. Authored at 128 and drawn
+     at 128, so the noise lands on whole pixels instead of being resampled;
+     stitchTiles keeps the tile seams invisible and saturate 0 keeps the grain
+     neutral. Normal blending rather than mix-blend-mode, which would force the
+     whole stacking context to re-composite. */
+  content: '';
   position: fixed;
   inset: 0;
-  z-index: -1;
-  overflow: hidden;
+  z-index: 0;
   pointer-events: none;
-}
-
-.aurora::after {
-  /* Dither: the 8-bit gradient ramps below band without it. Drawn 1:1 (authored
-     at 128, drawn at 128) so the grain always lands on whole pixels rather than
-     being resampled. Normal blending rather than mix-blend-mode, because a
-     full-viewport blended layer forces the whole stacking context to
-     re-composite on every frame of the drift animations; the opacity is tuned so
-     this dithers slightly harder than the old overlay did without lifting the
-     black. */
-  content: '';
-  position: absolute;
-  inset: 0;
-  opacity: 0.055;
+  opacity: 0.06;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='128' height='128'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='128' height='128' filter='url(%23n)'/%3E%3C/svg%3E");
   background-size: 128px 128px;
-}
-
-.aurora__blob {
-  position: absolute;
-  border-radius: 50%;
-  /* The blur is what spreads each blob past its own box into a soft wash, so it
-     stays. What was expensive is that the drift keyframes also scale(): scaling
-     a filtered layer forces the 60px blur to re-rasterize every frame instead of
-     riding the compositor. The keyframes below translate and fade only, so the
-     blur is rasterized once and every frame after is a compositor transform. */
-  filter: blur(60px);
-  opacity: 0.5;
-  will-change: transform, opacity;
-}
-
-.aurora__blob--a {
-  width: 46rem;
-  height: 46rem;
-  top: -18rem;
-  left: -14rem;
-  background: radial-gradient(
-    circle at 50% 50%,
-    rgba(109, 76, 240, 0.9) 0%,
-    rgba(109, 76, 240, 0.5) 42%,
-    rgba(109, 76, 240, 0) 72%
-  );
-  animation: drift-a 26s ease-in-out infinite;
-}
-
-.aurora__blob--b {
-  width: 38rem;
-  height: 38rem;
-  top: 22%;
-  right: -16rem;
-  background: radial-gradient(
-    circle at 50% 50%,
-    rgba(31, 111, 208, 0.9) 0%,
-    rgba(31, 111, 208, 0.5) 42%,
-    rgba(31, 111, 208, 0) 72%
-  );
-  animation: drift-b 32s ease-in-out infinite;
-}
-
-.aurora__blob--c {
-  width: 34rem;
-  height: 34rem;
-  bottom: -16rem;
-  left: 20%;
-  background: radial-gradient(
-    circle at 50% 50%,
-    rgba(184, 63, 168, 0.9) 0%,
-    rgba(184, 63, 168, 0.5) 42%,
-    rgba(184, 63, 168, 0) 72%
-  );
-  opacity: 0.36;
-  animation: drift-c 38s ease-in-out infinite;
-}
-
-/* Translate + opacity only -- deliberately no scale(). Both are compositor
-   properties, so the blurred layer is never re-rastered mid-animation; the
-   opacity swing stands in for the size pulse the scale() used to give. */
-@keyframes drift-a {
-  50% {
-    transform: translate3d(6rem, 4rem, 0);
-    opacity: 0.62;
-  }
-}
-@keyframes drift-b {
-  50% {
-    transform: translate3d(-5rem, 5rem, 0);
-    opacity: 0.42;
-  }
-}
-@keyframes drift-c {
-  50% {
-    transform: translate3d(4rem, -4rem, 0);
-    opacity: 0.44;
-  }
-}
-
-/* The blobs are sized in rem, so on a phone they fill the whole screen and the
-   tint reads as a flat purple wash. Pull them back there. */
-@media (max-width: 40rem) {
-  .aurora__blob {
-    opacity: 0.3;
-  }
-  .aurora__blob--c {
-    opacity: 0.24;
-  }
 }
 
 /* Layout
    ------------------------------------------------------------------ */
 
 .page {
+  position: relative;
+  z-index: 1;
   width: 100%;
-  max-width: 30rem;
+  max-width: 26rem;
   margin: 0 auto;
-  padding: clamp(3rem, 10vh, 5.5rem) 1.25rem 3rem;
+  padding: clamp(3rem, 10vh, 5rem) 1.25rem 3rem;
   padding-bottom: max(3rem, env(safe-area-inset-bottom));
   display: flex;
   flex-direction: column;
   align-items: center;
+  /* One entrance for the whole page rather than a stagger per row: the
+     staggered cascade is what made the old version feel automated. */
+  animation: enter 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 /* Profile
@@ -170,47 +84,43 @@ body {
 
 .profile {
   text-align: center;
-  animation: rise 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .profile__avatar {
-  width: 8rem;
-  height: 8rem;
-  margin: 0 auto 1.25rem;
-  padding: 3px;
-  border-radius: 50%;
-  background: conic-gradient(from 180deg, #8b7bf0, #4aa8ff, #e05fd0, #8b7bf0);
-  box-shadow: 0 0 40px rgba(139, 123, 240, 0.35);
-}
-
-.profile__avatar img {
-  width: 100%;
-  height: 100%;
   display: block;
+  width: 7.5rem;
+  height: 7.5rem;
+  margin: 0 auto 1.5rem;
   border-radius: 50%;
   object-fit: cover;
-  background: var(--bg);
+  background: var(--surface);
+  /* Accent ring with a background-coloured gap, drawn in one property. */
+  box-shadow:
+    0 0 0 3px var(--bg),
+    0 0 0 5px color-mix(in srgb, var(--accent) 70%, transparent);
 }
 
 .profile__name {
   margin: 0;
-  font-size: clamp(2.25rem, 9vw, 2.75rem);
-  font-weight: 700;
-  letter-spacing: -0.03em;
+  font-size: 2.5rem;
+  font-weight: 600;
+  letter-spacing: -0.04em;
   line-height: 1.1;
 }
 
 .profile__handle {
-  margin: 0.25rem 0 0;
-  font-size: 0.95rem;
-  font-weight: 500;
-  color: var(--text-muted);
+  margin: 0.5rem 0 0;
+  font-family: 'Geist Mono', ui-monospace, 'SFMono-Regular', monospace;
+  font-size: 0.8125rem;
+  letter-spacing: 0.01em;
+  color: var(--accent);
 }
 
 .profile__tagline {
-  margin: 0.85rem 0 0;
-  font-size: 1rem;
-  color: var(--text-muted);
+  margin: 0.875rem 0 0;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--muted);
 }
 
 /* Link stack
@@ -218,60 +128,57 @@ body {
 
 .stack {
   width: 100%;
-  margin-top: 2.5rem;
+  margin-top: 2.75rem;
   display: flex;
   flex-direction: column;
-  gap: 0.7rem;
+  gap: 0.5rem;
 }
 
 .link {
   position: relative;
   display: flex;
   align-items: center;
-  gap: 0.9rem;
-  padding: 0.85rem 1rem;
-  border: 1px solid var(--border);
+  gap: 0.875rem;
+  padding: 0.8125rem 1rem;
+  border: 1px solid var(--line);
   border-radius: var(--radius);
-  background: var(--bg-elevated);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background: var(--surface);
+  /* Lit top edge: a real material seam, not a glass blur. */
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
   color: var(--text);
-  font-size: 1.05rem;
-  font-weight: 600;
+  font-size: 0.9375rem;
+  font-weight: 500;
   text-decoration: none;
   transition:
-    transform 0.22s cubic-bezier(0.22, 1, 0.36, 1),
-    border-color 0.22s ease,
-    background-color 0.22s ease,
-    box-shadow 0.22s ease;
-  animation: rise 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
-  animation-delay: var(--delay, 0ms);
+    background-color 0.18s ease,
+    border-color 0.18s ease;
 }
 
+/* Hover picks up the platform's own colour, as a tint and a border. No outer
+   glow: the colour lands on the surface, not in the air around it. */
 .link:hover,
 .link:focus-visible {
-  transform: translateY(-2px);
-  background: var(--bg-elevated-hover);
-  border-color: color-mix(in srgb, var(--accent) 55%, transparent);
-  box-shadow: 0 8px 30px -10px color-mix(in srgb, var(--accent) 60%, transparent);
+  background: color-mix(in srgb, var(--link-accent) 13%, var(--surface));
+  border-color: color-mix(in srgb, var(--link-accent) 50%, transparent);
   outline: none;
 }
 
+/* Tactile press instead of a hover lift plus coloured glow. */
 .link:active {
-  transform: translateY(0);
+  transform: scale(0.99);
 }
 
 .link:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 3px;
+  outline: 2px solid var(--link-accent);
+  outline-offset: 2px;
 }
 
 .link__icon {
   flex: none;
   display: grid;
   place-items: center;
-  width: 1.4rem;
-  height: 1.4rem;
+  width: 1.5rem;
+  height: 1.5rem;
 }
 
 .link__icon img {
@@ -282,18 +189,16 @@ body {
 
 .link__label {
   flex: 1;
-  text-align: left;
 }
 
 .link__chevron {
   flex: none;
-  width: 1.15rem;
-  height: 1.15rem;
-  color: var(--text-muted);
-  opacity: 0.6;
+  width: 1rem;
+  height: 1rem;
+  color: var(--muted);
   transition:
-    transform 0.22s ease,
-    opacity 0.22s ease;
+    transform 0.18s ease,
+    color 0.18s ease;
 }
 
 .link__chevron svg {
@@ -302,9 +207,10 @@ body {
   display: block;
 }
 
-.link:hover .link__chevron {
-  transform: translateX(3px);
-  opacity: 1;
+.link:hover .link__chevron,
+.link:focus-visible .link__chevron {
+  transform: translateX(2px);
+  color: var(--link-accent);
 }
 
 /* Footer
@@ -312,19 +218,16 @@ body {
 
 .footer {
   margin-top: 3rem;
-  font-size: 0.85rem;
-  letter-spacing: 0.08em;
-  text-transform: lowercase;
-  color: var(--text-muted);
-  opacity: 0.5;
-  animation: rise 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
-  animation-delay: 0.75s;
+  font-family: 'Geist Mono', ui-monospace, 'SFMono-Regular', monospace;
+  font-size: 0.75rem;
+  color: var(--muted);
+  opacity: 0.6;
 }
 
-@keyframes rise {
+@keyframes enter {
   from {
     opacity: 0;
-    transform: translateY(14px);
+    transform: translateY(8px);
   }
 }
 

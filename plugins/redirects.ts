@@ -39,9 +39,9 @@ function redirectPage(url: string, label: string): string {
 <link rel="canonical" href="${safeUrl}">
 <meta http-equiv="refresh" content="0; url=${safeUrl}">
 <script>location.replace(${JSON.stringify(url)});</script>
-<style>body{margin:0;display:grid;place-items:center;min-height:100vh;background:#0b0b10;color:#a1a1ad;font:16px/1.5 system-ui,sans-serif}</style>
+<style>body{margin:0;display:grid;place-items:center;min-height:100vh;background:#0b0b0c;color:#8b8b93;font:16px/1.5 system-ui,sans-serif}</style>
 </head>
-<body><p>Redirecting to <a href="${safeUrl}" style="color:#8b7bf0">${safeUrl}</a>…</p></body>
+<body><p>Redirecting to <a href="${safeUrl}" style="color:#ff5c33">${safeUrl}</a>…</p></body>
 </html>
 `;
 }
@@ -62,9 +62,9 @@ var slug = decodeURIComponent(location.pathname.replace(/^\\/+|\\/+$/g, '')).toL
 location.replace(map[slug] || '/');
 </script>
 <meta http-equiv="refresh" content="0; url=/">
-<style>body{margin:0;display:grid;place-items:center;min-height:100vh;background:#0b0b10;color:#a1a1ad;font:16px/1.5 system-ui,sans-serif}</style>
+<style>body{margin:0;display:grid;place-items:center;min-height:100vh;background:#0b0b0c;color:#8b8b93;font:16px/1.5 system-ui,sans-serif}</style>
 </head>
-<body><p>Not found — <a href="/" style="color:#8b7bf0">go home</a>.</p></body>
+<body><p>Not found. <a href="/" style="color:#ff5c33">go home</a>.</p></body>
 </html>
 `;
 }
